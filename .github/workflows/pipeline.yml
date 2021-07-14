@@ -34,3 +34,5 @@ jobs:
           heroku_app_name: 'learn-fullstack-open-pokedex'
           heroku_email: 'buildevolhq@gmail.com'
           healthcheck: https://learn-fullstack-open-pokedex.herokuapp.com/health
+          checkstring: "ok"
+
