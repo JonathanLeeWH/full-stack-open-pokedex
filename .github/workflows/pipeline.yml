@@ -30,6 +30,7 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+      - uses: actions/checkout@v2
       - name: deploy to heroku
         # To deploy only when the code is merged into master.
         if: ${{ github.event_name == 'push' }}
