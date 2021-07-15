@@ -55,11 +55,12 @@ jobs:
           status: custom
           fields: author,commit,took
           custom_payload: |
-          {
-            attachments: [{
-              text: `a new version deployed to http://learn-fullstack-open-pokedex.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} build took ${process.env.AS_TOOK}`,
-            }]
-          }
+            {
+              attachments: [{
+                color: 'good',
+                text: `a new version deployed to http://learn-fullstack-open-pokedex.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} build took ${process.env.AS_TOOK}`,
+              }]
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ success() && github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message), ' '), '#skip') }}
