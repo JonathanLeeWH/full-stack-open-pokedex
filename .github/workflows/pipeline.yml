@@ -49,3 +49,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: 'patch'
           WITH_V: true
+      - name: Notify Slack if successful and deployed to heroku
+        uses: 8398a7/action-slack@v3.9.1
+        with:
+          fields: author,commit,took
+          text: `a new version deployed to http://learn-fullstack-open-pokedex.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} build took ${process.env.AS_TOOK}`
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ success() && github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message), ' '), '#skip') }}
+      - name: Notify Slack if not successful or cancelled
+        uses: 8398a7/action-slack@v3.9.1
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ failure() || cancelled() }} # Pick up events if the job fails or is canceled.
+
