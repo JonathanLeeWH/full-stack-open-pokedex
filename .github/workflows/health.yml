@@ -3,7 +3,7 @@ name: check heroku deployment health (Scheduled)
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: '02 14 * * *'
+    - cron: '5 14 * * *'
 
 jobs:
   check_deployment_health:
